@@ -10,7 +10,7 @@ locale                   : "en-US"
 title                    : "Yannis KARMIM"
 title_separator          : "-"
 name                     : &name "Yannis KARMIM"
-description              : &description "personal description"
+description              : &description "I am a PhD student on the subject of Dynamic  GNN on recommendation "
 url                      : https://ykrmm.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "ykrmm/ykrmm.github.io"
@@ -80,15 +80,15 @@ analytics:
 
 # Site Author
 author:
-  name             : "Your Sidebar Name"
+  name             : "Yannis Karmim"
   avatar           : "profile.png"
-  bio              : "Your biography for the left-hand sidebar"
-  location         : "Location"
+  bio              : "PhD student in Dynamic Graphs for Graph Neural Networks and Recommendation"
+  location         : "Yannis"
   employer         :
-  pubmed           : "https://www.ncbi.nlm.nih.gov/pubmed/?term=john+snow"
-  googlescholar    : "http://yourfullgooglescholarurl.com"
-  email            :
-  researchgate     :  # example: "https://www.researchgate.net/profile/yourprofile"
+  pubmed           : 
+  googlescholar    : "https://scholar.google.fr/citations?user=VDabjmoAAAAJ&hl=fr"
+  email            : "yannis.karmim@cnam.fr"
+  researchgate     :  "https://www.researchgate.net/profile/Yannis-Karmim"
   uri              :
   bitbucket        :
   codepen          :
@@ -96,20 +96,20 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           : "academicpages"
+  github           : "https://github.com/ykrmm"
   google_plus      :
   keybase          :
   instagram        :
   impactstory      : #"https://profiles.impactstory.org/u/xxxx-xxxx-xxxx-xxxx"
   lastfm           :
-  linkedin         :
-  orcid            : "http://orcid.org/yourorcidurl"
+  linkedin         : "https://www.linkedin.com/in/yannis-karmim-59257b18b/"
+  orcid            : 
   pinterest        :
   soundcloud       :
   stackoverflow    : # http://stackoverflow.com/users/123456/username
   steam            :
   tumblr           :
-  twitter          : "replacethistwitterhandle"
+  twitter          : "https://twitter.com/YKarmim"
   vine             :
   weibo            :
   xing             :
