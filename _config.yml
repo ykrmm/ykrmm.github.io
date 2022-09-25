@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Yannis KARMIM"
+title                    : "Yannis KARMIM - PhD Student"
 title_separator          : "-"
 name                     : &name "Yannis KARMIM"
 description              : &description "I am a PhD student on the subject of Dynamic  GNN on recommendation "
@@ -83,7 +83,7 @@ author:
   name             : "Yannis Karmim"
   avatar           : "profile.png"
   bio              : "PhD student in Dynamic Graphs for Graph Neural Networks and Recommendation"
-  location         : "Yannis"
+  location         : "Paris"
   employer         :
   pubmed           : 
   googlescholar    : "https://scholar.google.fr/citations?user=VDabjmoAAAAJ&hl=fr"
