@@ -8,4 +8,6 @@ redirect_from:
   - /about.html
 ---
 
+This is my academic website. Presenting my work and my PhD on GNN for Dynamic Graph.
 
+![](/images/graph_image_2.jpeg)

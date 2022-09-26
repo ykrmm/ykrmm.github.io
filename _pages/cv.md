@@ -11,37 +11,54 @@ redirect_from:
 
 Education
 ======
-* B.S. in GitHub, GitHub University, 2012
-* M.S. in Jekyll, GitHub University, 2014
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
+* B.S in Computer Science with honors, Sorbonne Université (former Pierre et Marie Curie), 2018
+* 6 Month exchange during my B.S, Université de Montréal, Winter 2018
+* M.S Data Learning and Knowledge (DAC), Sorbonne Université, 2020
+* Ph.D in Dynamic Graph for GNN, Conservatoire National des Arts et Métiers (CNAM), 2024 (expected)
 
 Work experience
 ======
-* Summer 2015: Research Assistant
-  * Github University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
+* Oct 2021 - Oct 2024: PhD
+  * VERTIGO, CNAM (Paris)
+  * Designing Graph Neural Networks on Dynamic Graph. Application on Recommendation (ranking, collaborative filtering…)
+  * Supervisor: [Nicolas Thome](http://cedric.cnam.fr/~thomen/) and [Raphaël Fournier S'niehotta](http://raphael.fournier-sniehotta.fr/)
 
-* Fall 2015: Research Assistant
-  * Github University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
+* Oct 2020 - Sep 2021: Research Engineer
+  * VERTIGO, CNAM (Paris)
+  * [Deeplomatics](https://deeplomatics.gitlab.io/) project focus on drone detection. Also research on semi and self supervised methods for semantic segmentation.
+  * Supervisor: [Nicolas Thome](http://cedric.cnam.fr/~thomen/)
+
+* Feb 2020 - Sep 2020: Research Intern
+  * VERTIGO, CNAM (Paris)
+  * Final year of Master Research internship on Computer Vision and Semantic Segmentation
+  * Supervisor: [Nicolas Audebert](https://nicolas.audebert.at/) and [Nicolas Thome](http://cedric.cnam.fr/~thomen/)
+
+* Summer 2019: Research Intern
+  * MLIA, LIP6 (Paris)
+  * First year of Master Research internship on semantic deep neural networks for Information Retrieval
+  * Supervisor: [Laure Soulier](https://mlia.lip6.fr/soulier/)
+
+
   
 Skills
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+
+* Deep Learning
+  * Computer Vision (Semantic Segmentation, Object detection)
+  * Graph Learning (GNN, Recommendation and Dynamic GNN )
+* Python
+  * Pytorch 
+  * Graph Library: Pytorch geometric, Neo4J,NetworkX 
+  * Ultralytics
+* Some web skills
 
 Publications
 ======
   <ul>{% for post in site.publications %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
+
+<!---
 Talks
 ======
   <ul>{% for post in site.talks %}
@@ -53,7 +70,8 @@ Teaching
   <ul>{% for post in site.teaching %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
-  
-Service and leadership
+-->
+
+Service
 ======
-* Currently signed in to 43 different slack teams
+* Vertigo Happy Manager
