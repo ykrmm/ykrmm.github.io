@@ -1,7 +1,7 @@
 ---
 title: "Refresher course in science for the organization AssoFac."
 collection: teaching
-type: "Workshop"
+type: "Refresh courses"
 permalink: /teaching/assofac
 venue: "AssoFac"
 date: 2021-03-01
