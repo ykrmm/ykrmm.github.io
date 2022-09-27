@@ -29,12 +29,12 @@ Work experience
   * Supervisor: [Nicolas Thome](http://cedric.cnam.fr/~thomen/)
 
 * Feb 2020 - Sep 2020: Research Intern
-  * VERTIGO, CNAM (Paris)
+  * [VERTIGO](https://cedric.cnam.fr/lab/equipes/vertigo/), CNAM (Paris)
   * Final year of Master Research internship on Computer Vision and Semantic Segmentation
   * Supervisor: [Nicolas Audebert](https://nicolas.audebert.at/) and [Nicolas Thome](http://cedric.cnam.fr/~thomen/)
 
 * Summer 2019: Research Intern
-  * MLIA, LIP6 (Paris)
+  * [MLIA](https://mlia.lip6.fr/), [LIP6](https://www.lip6.fr/) (Paris)
   * First year of Master Research internship on semantic deep neural networks for Information Retrieval
   * Supervisor: [Laure Soulier](https://mlia.lip6.fr/soulier/)
 
@@ -64,13 +64,13 @@ Talks
   <ul>{% for post in site.talks %}
     {% include archive-single-talk-cv.html %}
   {% endfor %}</ul>
-  
+-->
 Teaching
 ======
   <ul>{% for post in site.teaching %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
--->
+
 
 Service
 ======
