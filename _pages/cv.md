@@ -11,10 +11,10 @@ redirect_from:
 
 Education
 ======
-* B.S in Computer Science with honors, Sorbonne Université (former Pierre et Marie Curie), 2018
-* 6 Month exchange during my B.S, Université de Montréal, Winter 2018
-* M.S Data Learning and Knowledge (DAC), Sorbonne Université, 2020
-* Ph.D in Dynamic Graph for GNN, Conservatoire National des Arts et Métiers (CNAM), 2024 (expected)
+* B.S in Computer Science with honors, [Sorbonne Université](https://sciences.sorbonne-universite.fr/) (former Pierre et Marie Curie), 2018
+* 6 Month exchange Program during my B.S, [Université de Montréal](https://www.umontreal.ca/), Winter 2018
+* M.S [Data Learning and Knowledge](https://dac.lip6.fr/master/) (DAC), Sorbonne Université, 2020
+* Ph.D in Dynamic Graph for GNN, Conservatoire National des Arts et Métiers ([CNAM](https://cedric.cnam.fr/lab/)), 2024 (expected)
 
 Work experience
 ======
