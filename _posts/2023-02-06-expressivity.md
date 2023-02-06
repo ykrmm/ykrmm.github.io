@@ -1,9 +1,16 @@
+---
+title: 'Expressivité des GNNs'
+date: 2022-09-26
+permalink: images/post_expressivity/
+tags:
+  - expressivity
+  - gnn
+
+---
+
+
 # Expressivité des GNN
 
-Class: EXPRESS
-Created: 23 janvier 2023 16:57
-Reviewed: Yes
-Type: Reading
 
 # GNN et expressivité
 
@@ -27,14 +34,14 @@ Pour chaque nœud, on agrège les couleurs de son voisinage puis à l’aide d�
 
 Si deux graphes sont isomorphes alors à la fin du processus leurs colorations seront identiques. 
 
-![Untitled](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Untitled.png)
+![Untitled](Untitled.png)
 
  Cet algorithme arrive à distinguer les structures de graphes dans **quasiment toute les situations** sauf certaines exceptions comme les graphes réguliers par exemple. 
 
 > *Le test WL est basé sur la recoloration itérative des graphes (Une "couleur" en théorie des graphes désigne une étiquette discrète des nœuds), en commençant par tous les nœuds de couleur identique. À chaque étape, l'algorithme agrège les couleurs des nœuds et de leurs voisinages en les représentant sous forme de multisets, puis il hache les multisets de couleurs agrégés en de nouvelles couleurs uniques. L'algorithme s'arrête lorsqu'il atteint une coloration stable. Si, à ce moment-là, les colorations des deux graphes diffèrent, les graphes sont considérés comme non isomorphes. En revanche, si les colorations sont les mêmes, les graphes sont probablement (mais pas nécessairement) isomorphes. En d'autres termes, le test WL est une condition nécessaire mais insuffisante pour l'isomorphisme des graphes. Il existe des graphes non isomorphes pour lesquels le test de WL produit des colorations identiques et les considère donc comme "possiblement isomorphes" ; on dit que le test échoue dans ce cas. Un tel exemple est illustré dans la figure suivante :*
 > 
 
-![Untitled](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Untitled%201.png)
+![Untitled](Untitled%201.png)
 
 ### How Powerful are GNN (2018)
 
@@ -88,7 +95,7 @@ Par exemple dans le 2-WL test on considérera non plus un noeud et son voisinage
 
 Cela permet au test de décrire des motifs plus complexes, et donc de dépasser l’expressivité du 1-WL test. 
 
-![Capture d’écran de 2023-01-25 16-57-24.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_dcran_de_2023-01-25_16-57-24.png)
+![Capture d’écran de 2023-01-25 16-57-24.png](Capture_dcran_de_2023-01-25_16-57-24.png)
 
 Dans l’exemple ci dessus, le 1-WL test détecte une isomorphie tandis que le test 3-WL distingue les deux graphes. 
 
@@ -111,7 +118,7 @@ Des contributions comme ********************************[WL Go Neural : Higher O
 
  
 
-![Capture d’écran de 2023-01-25 16-54-27.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_dcran_de_2023-01-25_16-54-27.png)
+![Capture d’écran de 2023-01-25 16-54-27.png](Capture_dcran_de_2023-01-25_16-54-27.png)
 
                                           ********Source:********  ********************************[WL Go Neural : Higher Order GNN](https://arxiv.org/abs/1810.02244)********************************
 
@@ -143,7 +150,7 @@ Pour chaque noeuds $v \in V_{G_{S}}$ on infère son rôle dans $H$ en obtenant l
 
 La complexité de ce preprocessing est dans le pire des cas $\mathcal{O}(n^{k})$ avec $k$ le cardinal de l’ensemble $\mathcal{H}$. 
 
-![Capture d’écran de 2023-01-26 14-41-27.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_dcran_de_2023-01-26_14-41-27.png)
+![Capture d’écran de 2023-01-26 14-41-27.png](Capture_dcran_de_2023-01-26_14-41-27.png)
 
                                                                        ************Source: GSN************ 
 
@@ -153,7 +160,7 @@ C’est le même principe pour la partie droite de la figure où l’on cible no
 
 Le message passing est définie comme suivant: 
 
-![Capture d’écran de 2023-01-26 14-46-11.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_dcran_de_2023-01-26_14-46-11.png)
+![Capture d’écran de 2023-01-26 14-46-11.png](Capture_dcran_de_2023-01-26_14-46-11.png)
 
 $M^{t+1}$ est une fonction d’agégation des messages (MLP, attention…) $UP^{t+1}$ est la fonction de mise à jour de la représentation courante du noeud.
 
@@ -165,7 +172,7 @@ Le choix des sous structures est crucial pour une bonne généralisation du mod�
 
 Une place importante est consacré à l’expressivité du GSN dans leur article, ils prouvent que le GSN est ****************au moins**************** aussi expressif que le 1-WL test, et qu’en fonction du choix des sous structures, ils arrivent à atteindre une expressivité égale au test k-WL. 
 
-![Untitled](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Untitled%202.png)
+![Untitled](Untitled%202.png)
 
                                                                          *[Source : blog Bronstein](https://towardsdatascience.com/beyond-weisfeiler-lehman-using-substructures-for-provably-expressive-graph-neural-networks-d476ad665fa3)*
 
@@ -196,7 +203,7 @@ Les GNN de reconstruction k proposés dans ce modèle appliquent un MP-GNN à ch
 
 [*From Stars to Subgraphs: Uplifting Any GNN with Local Structure Awareness](https://arxiv.org/abs/2110.03753) (ICLR 2022)*
 
-![Untitled](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Untitled%203.png)
+![Untitled](Untitled%203.png)
 
 Dans les MP-GNN et dans 1-WL, l’agrégation est une structure en étoile. Pour étendre cette représentation limité Zhao et al. utilise les ****************rooted subgraphs.**************** 
 
@@ -214,7 +221,7 @@ En plus des architectures de dropout et les architectures de reconstruction, cet
 
 Plutôt que d’encoder des *********multisets********* de noeuds comme dans 1-WL ou les MP-GNN, ils proposent d’encoder un multisets de sous graphes. 
 
-![Capture d’écran de 2023-01-26 16-38-25.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_dcran_de_2023-01-26_16-38-25.png)
+![Capture d’écran de 2023-01-26 16-38-25.png](Capture_dcran_de_2023-01-26_16-38-25.png)
 
                                                                            *******************Source : ESAN******************* 
 
@@ -228,7 +235,7 @@ Leur modèle est un framework equivariant pour générer et traiter ces sous gra
 
 Pourquoi équivariant ? 
 
-![Untitled](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Untitled%204.png)
+![Untitled](Untitled%204.png)
 
 À partir du graphe en entrée (figure gauche) on peut avec la méthode de suppression d’arête générer 3 sous graphes (figure du milieu), ce qui conduit à 3 représentation tensorielle différentes, pourtant il ne s’agit que d’une permutation du même motif de sous graphe. 
 
@@ -236,7 +243,7 @@ Le framework equivariant a pour but de générer la même représentation pour c
 
  
 
-![Untitled](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Untitled%205.png)
+![Untitled](Untitled%205.png)
 
 ESAN est composé de deux encodeurs (orange et jaune), le premier encode les structures de sous graphes en parallèle à l’aide de réseau siamois, le second ********************information sharing******************** est une agrégation (somme) des différents tenseurs de représentations des sous graphes. 
 L’encodeur orange est donc une généralisation des modèles du type Dropout ou Reconstruction, et le module de partage d’information est une généralisation de STAR. 
@@ -282,7 +289,7 @@ L’objectif de cette recherche est d’étendre les études de l’expressivit�
 
 À l’issue de l’étude de l’expressivité des GNN temporelles, les auteurs proposent une nouvelle architecture **PINT**. En exploitant un message passing temporelle injectif ainsi que des *****************************relatives positional features***************************** ils montrent des gains important par rapport aux archi existantes en ayant une expressivité comparable au test temporelle 1-WL. 
 
-![Capture d’écran de 2023-01-27 14-44-09.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_dcran_de_2023-01-27_14-44-09.png)
+![Capture d’écran de 2023-01-27 14-44-09.png](Capture_dcran_de_2023-01-27_14-44-09.png)
 
 ### Isomorphisme dans les graphes temporelles
 
@@ -299,7 +306,7 @@ Le calcul de représentation d’un noeud $v$ à un temps $t$  peut être décri
 
  
 
-![Capture d’écran 2023-01-30 à 11.38.27.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_decran_2023-01-30_a_11.38.27.png)
+![Capture d’écran 2023-01-30 à 11.38.27.png](Capture_decran_2023-01-30_a_11.38.27.png)
 
 Le TCT est un arbre de calcul induit à partir d’un nœud source. 
 
@@ -309,7 +316,7 @@ Si un MP-TGN d’une profondeur $L$  est capable de donner une représentation d
 
 Dans l’exemple de la figure précédente, les modèles comme TGN-att ou TGAT ne sont pas capable de distinguer $T_{u}(t)$ et $T_{v}(t)$. En effet ces deux modèles utilisent la moyenne des messages comme fonction d’agrégation, comme on a la même proportion de ********features******** dans les deux cas, les deux modèles donneront la même représentation à $u$  et $v.$
 
-![Capture d’écran 2023-01-30 à 12.10.35.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_decran_2023-01-30_a_12.10.35.png)
+![Capture d’écran 2023-01-30 à 12.10.35.png](Capture_decran_2023-01-30_a_12.10.35.png)
 
 Des structures simples telles que les cycles ou les cliques ne sont pas modélisable par les MP-TGN ou les WA-TGN actuel, et ce même dans le cas où les MP-TGN ont une expressivité similaire au test temporel 1-WL.
 
@@ -354,7 +361,7 @@ Le principe est de compter combien de marches temporelles d’une taille donnée
 
 On considère une matrice carrée $P$. Une ligne de cette matrice nous donne la position relative  de chaque noeuds par rapport au noeud cible. 
 
-![Capture d’écran 2023-01-30 à 13.30.03.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_decran_2023-01-30_a_13.30.03.png)
+![Capture d’écran 2023-01-30 à 13.30.03.png](Capture_decran_2023-01-30_a_13.30.03.png)
 
 ********PINT******** augmenté des ********features******** positionnelles est strictement plus expressif que WA-TGN et MP-TGN. 
 
@@ -364,12 +371,12 @@ PINT est borné par le test temporel 1-WL. De même que T-1-WL, toutes les struc
 
 ’
 
-![Capture d’écran 2023-01-30 à 13.35.00.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_decran_2023-01-30_a_13.35.00.png)
+![Capture d’écran 2023-01-30 à 13.35.00.png](Capture_decran_2023-01-30_a_13.35.00.png)
 
 La symétrie de ce graphe fait que PINT n’arrivera pas à donner une représentation différentes pour ces deux événements. Il est donc encore possible d’améliorer l’expressivité des modèles TGN. 
 
 ## Résultats
 
-![Capture d’écran 2023-01-30 à 13.36.36.png](Expressivite%CC%81%20des%20GNN%20cce2ee78c9324a4aafbfdcedf0e466aa/Capture_decran_2023-01-30_a_13.36.36.png)
+![Capture d’écran 2023-01-30 à 13.36.36.png](Capture_decran_2023-01-30_a_13.36.36.png)
 
 Le protocole expérimentale ici utilisé est identique à TGN,TGAT,CAW… Il serait intéressant d’évaluer PINT dans le nouveau protocole présenté à NIPS 2022, **[Towards Better Evaluation for Dynamic Link Prediction](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj66-rZrO_8AhVxiv0HHVyJC04QFnoECAoQAQ&url=https%3A%2F%2Farxiv.org%2Fabs%2F2207.10128&usg=AOvVaw3Gy6osPs-ORPj_Iv_h5t8Y).**
