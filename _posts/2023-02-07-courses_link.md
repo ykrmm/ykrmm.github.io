@@ -7,7 +7,7 @@ tags:
   - gnn
 
 ---
-Note de blog sur l'expressivité des modèles GNNs statiques et dynamiques
+Liste de liens de cours et playlist pour l'apprentissage sur des graphes 
 
 
 # Liste de cours intéressants online pour l'apprentissage sur des graphes.
