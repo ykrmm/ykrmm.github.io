@@ -1,6 +1,6 @@
 ---
 title: 'Expressivité des GNNs'
-date: 2022-09-26
+date: 2023-02-06
 permalink: images/post_expressivity/
 tags:
   - expressivity
@@ -114,7 +114,7 @@ Une playlist complète sur l’isomorphisme des graphes, l’algorithme de Weisf
 
 **K-GNN**
 
-Des contributions comme **[WL Go Neural : Higher Order GNN](https://arxiv.org/abs/1810.02244)**  ou [*Provably Powerful Graph Networks](https://arxiv.org/abs/1905.11136)* arrivent à concevoir des k-GNN en se basant sur le test k-WL et ainsi atteindre la même expressivité théorique. Cependant ces techniques ont une grande complexité en mémoire et en temps et sont souvent inapplicable sur des gros graphes.
+Des contributions comme *[WL Go Neural : Higher Order GNN](https://arxiv.org/abs/1810.02244)*  ou *[Provably Powerful Graph Networks](https://arxiv.org/abs/1905.11136)* arrivent à concevoir des k-GNN en se basant sur le test k-WL et ainsi atteindre la même expressivité théorique. Cependant ces techniques ont une grande complexité en mémoire et en temps et sont souvent inapplicable sur des gros graphes.
 
  
 
@@ -145,7 +145,7 @@ L’ensemble $\mathcal{H}$  contient des sous structures comme par exemple une 3
 
 Pour chaque $H$ trouve l’ensemble de ses sous graphes isomorphes dans $G$ que l’on note $G_{S}$.
 
-Pour chaque noeuds $v \in V_{G_{S}}$ on infère son rôle dans $H$ en obtenant l’orbite de son application $f(v) \text{ dans } H \text{  Orb}_{H}(f(v)).$ En comptant toute les apparences possible des différentes orbites dans $v$ on obtient la feature structurelle de $v, \mathbf{x}_{H}^{V}$. 
+Pour chaque noeuds $v \in V_{G_{S}}$ on infère son rôle dans $H$ en obtenant l’orbite de son application $ f(v) $ dans  $H$ et $Orb_{H}(f(v))$. En comptant toute les apparences possible des différentes orbites dans $v$ on obtient la feature structurelle de $v, \mathbf{x}_{H}^{V}$. 
 
 La complexité de ce preprocessing est dans le pire des cas $\mathcal{O}(n^{k})$ avec $k$ le cardinal de l’ensemble $\mathcal{H}$. 
 
