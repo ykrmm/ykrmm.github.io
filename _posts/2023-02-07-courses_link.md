@@ -1,7 +1,7 @@
 ---
 title: 'Cours graphes'
 date: 2023-02-07
-permalink: images/post_expressivity/
+permalink: /posts/2012/08/courseslink/
 tags:
   - courses
   - gnn

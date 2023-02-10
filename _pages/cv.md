@@ -74,6 +74,4 @@ Teaching
   {% endfor %}</ul>
 
 
-Service
-======
-* Vertigo Happy Manager
+
