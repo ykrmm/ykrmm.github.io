@@ -9,6 +9,12 @@ redirect_from:
 
 {% include base_path %}
 
+Publications
+======
+  <ul>{% for post in site.publications %}
+    {% include archive-single-cv.html %}
+  {% endfor %}</ul>
+
 Education
 ======
 * B.S in Computer Science with honors, [Sorbonne Université](https://sciences.sorbonne-universite.fr/) (former Pierre et Marie Curie), 2018
@@ -18,6 +24,9 @@ Education
 
 Work experience
 ======
+* Summer 2024: Deep Learning consulting
+  * [RAKAM](https://www.rakam.ai/), Paris
+  * Deployment of an LLM capable of reasoning on structured data for automatic tutorial generation.
 * Oct 2021 - Oct 2024: PhD
   * VERTIGO, CNAM (Paris)
   * Designing Graph Neural Networks on Dynamic Graph. Application on Recommendation (ranking, collaborative filtering…)
@@ -39,6 +48,7 @@ Work experience
   * Supervisor: [Laure Soulier](https://mlia.lip6.fr/soulier/)
 
 
+
   
 Skills
 ======
@@ -50,13 +60,9 @@ Skills
   * Pytorch 
   * Graph Library: Pytorch geometric, Neo4J,NetworkX 
   * Ultralytics
-* Some web skills
+* Some web skills (scrapping…)
 
-Publications
-======
-  <ul>{% for post in site.publications %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
+
 
 <!---
 Talks
