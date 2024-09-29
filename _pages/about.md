@@ -1,6 +1,6 @@
 ---
 permalink: /
-title: "Yannis Karmim's website"
+title: "Yannis Karmim - PhD Student"
 excerpt: "About me"
 author_profile: true
 redirect_from: 
