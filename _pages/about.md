@@ -9,6 +9,7 @@ redirect_from:
 ---
 
 ## News 
+* *<span style="color:darkblue">(29/09/2024)</span>*: Looking for a postdoc position for september 2025 on machine learning on graphs.
 * *<span style="color:darkblue">(26/09/2024)</span>*: Our paper on dynamic graph transformer is accepted at <span style="color:darkgreen">**NeurIPS2024**</span>!
 
 * *<span style="color:darkblue">(13/09/2024)</span>*: Presentation of our work on the temporal receptive field at the <span style="color:darkgreen">**ECML2024**</span> conference in Vilnius.
