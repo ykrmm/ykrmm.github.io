@@ -7,10 +7,10 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "Yannis KARMIM - PhD Student"
+title                    : "Yannis KARMIM"
 title_separator          : "-"
 name                     : &name "Yannis KARMIM"
-description              : &description "I am a PhD student on the subject of Dynamic  GNN on recommendation "
+description              : &description "Postdoctoral researcher in LLM at INRIA | PhD in Machine learning on graphs."
 url                      : https://ykrmm.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "ykrmm/ykrmm.github.io"
@@ -82,7 +82,7 @@ analytics:
 author:
   name             : "Yannis Karmim"
   avatar           : "profile.png"
-  bio              : "PhD student in Dynamic Graphs for Graph Neural Networks and Recommendation"
+  bio              : "Postdoctoral researcher in LLM at INRIA | PhD in Machine learning on graphs."
   location         : "Paris"
   employer         :
   pubmed           : 
