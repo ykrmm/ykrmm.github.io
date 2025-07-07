@@ -22,4 +22,4 @@ redirect_from:
 
 
 
-![](/images/accueil.jpg)
+![](/images/accueil.png)
