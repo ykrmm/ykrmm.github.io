@@ -11,7 +11,7 @@ nav_order: 3
 
 - **May 2026**: [CENIA](https://cenia.cl/), Santiago, Chile: multi-hop reasoning and knowledge acquisition in LLMs.
 - **May 2026**: Universidad de Chile, Santiago, Chile: multi-hop reasoning and knowledge acquisition in LLMs.
-- **Mar. 2026**: INRIA Chile, Santiago, Chile: multi-hop reasoning and knowledge acquisition in LLMs.
+- **Mar. 20, 2026**: INRIA Chile, Santiago, Chile (hybrid): [Understand memorization and knowledge acquisition in LLMs](https://www.inria.cl/en/understand-memorization-and-knowledge-acquisition-llm).
 - **Jan. 2024**: LITIS lab, University of Rouen Normandy, France: graph transformers. I presented my ongoing work on dynamic graph transformers at the invitation of Sébastien Adam.
 
 #### Conference presentations

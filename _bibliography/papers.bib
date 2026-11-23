@@ -1,16 +1,20 @@
 ---
 ---
 
-@misc{poulenard2026kgrag,
-  abbr        = {Preprint},
+@inproceedings{poulenard2026kgrag,
+  abbr        = {ORACLE},
   bibtex_show = {true},
   title       = {Knowledge-Graph Based Augmentation versus Retrieval Augmented Generation for Cultural-Related Question Answering},
-  author      = {Poulenard, P. and Karmim, Yannis and Barri{\`e}re, Valentin},
+  author      = {Poulenard, Pablo and Karmim, Yannis and Barri{\`e}re, Valentin},
+  booktitle   = {Workshop on Open Reasoning Across Cultures \& Languages (ORACLE) at EMNLP 2026},
+  address     = {Budapest, Hungary},
   year        = {2026},
-  eprint      = {2609.18317},
-  archivePrefix = {arXiv},
+  month       = oct,
   arxiv       = {2609.18317},
-  note        = {Under review at an EMNLP 2026 workshop}
+  hal         = {hal-05870367},
+  preview     = {kg_vs_rag.png},
+  abstract    = {Large language models (LLMs) suffer from a long-tail deficit: culturally specific facts, particularly those concerning underrepresented regions such as Latin America, appear too rarely in pretraining corpora to be reliably memorized. Retrieval-Augmented Generation (RAG) addresses this by grounding generation in external text, but structured alternatives such as Knowledge Graphs (KGs) offer tighter control over what enters the context, along with potential gains in explainability and updatability. We benchmark Graph-RAG against standard RAG on LatamQA, a culturally grounded multiple-choice dataset spanning eight thematic categories. The graphs are built end-to-end from Wikipedia articles with KGGen, a recent open-domain extractor, without manual curation in our main setting. G-Retriever is competitive with RAG and reduces the error of the base LLM by 72\% with a standard KG and 78\% with a benchmark-aware variant, the gap to RAG narrowing further as the graph is oriented toward task-relevant content. The trained projection transfers zero-shot to Portuguese without target-language fine-tuning, indicating multilingual reach.},
+  selected    = {true}
 }
 
 @inproceedings{karmim2026multihop,
@@ -24,6 +28,7 @@
   html        = {https://aclanthology.org/2026.findings-emnlp.2144/},
   arxiv       = {2606.09338},
   code        = {https://github.com/ykrmm/composition-bound},
+  preview     = {multihop.png},
   selected    = {true}
 }
 
@@ -37,6 +42,7 @@
   html        = {https://aclanthology.org/2026.mme-main.11},
   arxiv       = {2603.10001},
   code        = {https://github.com/Inria-Chile/LatamQA},
+  preview     = {latamqa.png},
   selected    = {true}
 }
 
@@ -47,7 +53,8 @@
   author      = {Hilel, Mohammed and Karmim, Yannis and De Bodinat, Jean and Sarehane, Reda and Gillon, Antoine},
   booktitle   = {ICMLC 2026},
   year        = {2026},
-  arxiv       = {2511.05297}
+  arxiv       = {2511.05297},
+  preview     = {graphrag_software.png}
 }
 
 @inproceedings{lafon2025vilu,
