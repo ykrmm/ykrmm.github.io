@@ -1,25 +1,40 @@
 ---
+layout: about
+title: about
 permalink: /
-title: "Yannis Karmim - PhD"
-excerpt: "About me"
-author_profile: true
-redirect_from: 
-  - /about/
-  - /about.html
+subtitle: Postdoctoral researcher at <a href="https://www.inria.fr/en/almanach">INRIA Paris</a> & <a href="https://inria.cl/">INRIA Chile</a> · ALMANACH team
+
+profile:
+  align: right
+  image: prof_pic.png
+  image_circular: false # crops the image to make it circular
+  more_info: >
+    <p>INRIA Paris / INRIA Chile</p>
+    <p>Paris – Santiago</p>
+
+selected_papers: true # includes a list of papers marked as "selected={true}"
+social: true # includes social icons at the bottom of the page
+
+announcements:
+  enabled: true # includes a list of news items
+  scrollable: true # adds a vertical scroll bar if there are more than 3 news items
+  limit: 8 # leave blank to include all the news in the `_news` folder
+
+latest_posts:
+  enabled: true
+  scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
+  limit: 3 # leave blank to include all the blog posts
 ---
 
-## News 
-* *<span style="color:darkblue">(07/07/2025)</span>*: I will start a new postdoc position between INRIA Paris and INRIA Chile with the **ALMANACH** team on the subject of sociocultural bias in LLM.   
-* *<span style="color:darkblue">(27/06/2025)</span>*: Our paper on learning vision-language uncertainties is accepted at <span style="color:darkgreen">**ICCV'2025**</span>!
-* *<span style="color:darkblue">(03/06/2025)</span>*: **PhD Defense**: Machine Learning on graphs for recommendation and dynamic predictions.
-* *<span style="color:darkblue">(26/09/2024)</span>*: Our paper on dynamic graph transformer is accepted at <span style="color:darkgreen">**NeurIPS'2024**</span>!
-* *<span style="color:darkblue">(15/07/2024)</span>*: Our work on temporal receptive field is accepted at <span style="color:darkgreen">**ECML'2024 Machine Learning on Graphs Workshop**</span> ! 
-* *<span style="color:darkblue">(01/07/2024)</span>*: Our work on improving GNN for top-k recommandation is accepted at <span style="color:darkgreen">**TMLR**</span> (Transaction in Machine Learning Research) !
+I am a postdoctoral researcher between **INRIA Paris** and **INRIA Chile**, in the **ALMANACH** team. I work on **small reasoning models and agents**: how language models acquire knowledge during pretraining, how they compose it for multi-hop reasoning, and how to evaluate their socio-cultural biases, with a focus on Latin America.
 
+I received my **PhD in Machine Learning** from [CNAM Paris](https://cedric.cnam.fr/) in June 2025, under the supervision of [Nicolas Thome](http://cedric.cnam.fr/~thomen/) and [Raphaël Fournier-S'niehotta](http://raphael.fournier-sniehotta.fr/) (CEDRIC, CNAM & ISIR, Sorbonne University). My thesis was on machine learning on graphs for recommendation and dynamic prediction.
 
- 
+My research covers:
 
+- **LLMs & reasoning**: knowledge acquisition, multi-hop knowledge composition, pretraining data augmentation ([Findings of EMNLP'26](https://arxiv.org/abs/2606.09338))
+- **Culture & bias**: socio-cultural bias evaluation of LLMs ([EACL'26 workshop](https://arxiv.org/abs/2603.10001)), knowledge-graph augmentation vs. RAG for cultural QA
+- **Graph learning**: dynamic graph transformers ([NeurIPS'24](https://arxiv.org/abs/2409.17986)), GNNs for recommendation ([TMLR](https://arxiv.org/abs/2407.07912)), Graph-RAG ([ICMLC'26](https://arxiv.org/abs/2511.05297))
+- **Uncertainty**: failure prediction for vision-language models ([ICCV'25](https://arxiv.org/abs/2507.07620))
 
-
-
-![](/images/accueil.png)
+I have hands-on experience with large-scale distributed training (multi-node, multi-GPU, up to 100B tokens) and with deployment under tight compute constraints.

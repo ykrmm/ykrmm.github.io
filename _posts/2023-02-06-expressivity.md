@@ -1,376 +1,349 @@
 ---
-title: 'Expressivité des GNNs'
+layout: post
+title: Expressivity of GNNs
 date: 2023-02-06
-permalink: images/post_expressivity/
-tags:
-  - expressivity
-  - gnn
-
+description: A note on the expressive power of static and dynamic graph neural networks, from the Weisfeiler-Lehman test to subgraph GNNs and temporal graph networks.
+tags: gnn expressivity
+categories: graphs
+toc:
+  sidebar: left
 ---
-Note de blog sur l'expressivité des modèles GNNs statiques et dynamiques
 
-# Expressivité des GNN
+Graph Neural Networks are the state-of-the-art models for representation learning on graphs. **Message-passing** architectures have become dominant in this field thanks to their simplicity and their performance on graph tasks.
 
+However, unlike their cousins in the neural-network family (CNNs, MLPs, Transformers), their expressivity is bounded by the Weisfeiler-Lehman test. In this post we first look at what the Weisfeiler-Lehman algorithm is, and why understanding it is essential to design better models and go beyond the limits of standard GNN architectures.
 
-# GNN et expressivité
+We then look at how recent GNN models manage to exceed the expressivity bound of the 1-WL test, and finally we discuss the expressivity of GNNs on dynamic graphs, a field that is still very little studied.
 
-Les Graph Neural Networks sont les modèles états de l’art pour de l’apprentissage de représentation sur les graphes. Les architectures type **message passing** se sont majoritairement imposées dans ce domaine par leur simplicité et leurs performances sur les tâches impliquant des graphes. 
+## Expressivity and the Weisfeiler-Lehman test
 
-Cependant contrairement à leurs semblables dans la famille des réseaux de neurones (CNN,MLP,Transformers), leur expressivité est limitée par le test de Weisfeiler-Lehman. Dans cette note de blog on va voir tout d’abord ce qu’est l’algorithme de Weisfeiler-Lehman, pourquoi il est essentiel de le comprendre afin de designer des modèles plus performants et de dépasser les limites des architectures standards de GNN. 
+### The 1-WL test
 
-On va voir ensuite comment les récents modèles GNN arrivant à dépasser les bornes d’expressivité du test 1-WL, et pour finir on va parler de l’expressivité des modèles de GNN sur graphes dynamiques, domaine très peu étudié à ce jour. 
+**[The following figures are borrowed from M. Bronstein's blog post on the expressivity of GNNs](https://towardsdatascience.com/expressive-power-of-graph-neural-networks-and-the-weisefeiler-lehman-test-b883db3c7c49)**
 
-## Expressivité et test de Weisfeiler-Lehman.
+The 1-WL test is a polynomial-time algorithm designed by Weisfeiler and Lehman in 1968 to determine whether two graphs are isomorphic. Two graphs are isomorphic when their structures are identical.
 
-### 1-WL Test
+The test iteratively recolors the nodes of a graph.
 
-**[Les figures suivantes ont été emprunté au blogpost sur l’expressivité des GNNs de M. Bronstein](https://towardsdatascience.com/expressive-power-of-graph-neural-networks-and-the-weisefeiler-lehman-test-b883db3c7c49)**
+For each node, we aggregate the colors of its neighborhood and recolor the current node with an injective hash function. We repeat this process until convergence (the color of each node no longer changes from one iteration to the next).
 
-Le 1-WL Test est un algorithme en temps polynomial mis au point par Weisfeiler et Lehman en 1968 afin de déterminer si deux graphes sont isomorphes ou non. Des graphes isomorphes signifient que leurs structures sont identiques. 
+If two graphs are isomorphic, their colorings will be identical at the end of the process.
 
-Le test consiste en la recoloration itérative des nœuds d’un graphe. 
+![1-WL test](/assets/img/posts/expressivity/Untitled.png)
 
-Pour chaque nœud, on agrège les couleurs de son voisinage puis à l’aide d’une fonction de hachage inductive on recolore le nœud courant. On répète ce processus jusqu’à convergence (La couleur de chaque nœud n’évolue plus par rapport à l’itération précédente).
+This algorithm distinguishes graph structures in **almost all situations**, with some exceptions such as regular graphs.
 
-Si deux graphes sont isomorphes alors à la fin du processus leurs colorations seront identiques. 
+> _The WL test is based on iterative graph recoloring (a "color" in graph theory is a discrete node label), starting with all nodes having the same color. At each step, the algorithm aggregates the colors of nodes and their neighborhoods, represents them as multisets, and hashes the aggregated color multisets into new unique colors. The algorithm stops when it reaches a stable coloring. If at that point the colorings of the two graphs differ, the graphs are deemed non-isomorphic. If the colorings are the same, the graphs are possibly (but not necessarily) isomorphic. In other words, the WL test is a necessary but insufficient condition for graph isomorphism. There exist non-isomorphic graphs for which the WL test produces identical colorings and considers them "possibly isomorphic"; the test is said to fail in this case. Such an example is shown in the following figure:_
 
-![Untitled](Untitled.png)
+![Failure case of the WL test](/assets/img/posts/expressivity/Untitled%201.png)
 
- Cet algorithme arrive à distinguer les structures de graphes dans **quasiment toute les situations** sauf certaines exceptions comme les graphes réguliers par exemple. 
+### How Powerful are GNNs? (2018)
 
-> *Le test WL est basé sur la recoloration itérative des graphes (Une "couleur" en théorie des graphes désigne une étiquette discrète des nœuds), en commençant par tous les nœuds de couleur identique. À chaque étape, l'algorithme agrège les couleurs des nœuds et de leurs voisinages en les représentant sous forme de multisets, puis il hache les multisets de couleurs agrégés en de nouvelles couleurs uniques. L'algorithme s'arrête lorsqu'il atteint une coloration stable. Si, à ce moment-là, les colorations des deux graphes diffèrent, les graphes sont considérés comme non isomorphes. En revanche, si les colorations sont les mêmes, les graphes sont probablement (mais pas nécessairement) isomorphes. En d'autres termes, le test WL est une condition nécessaire mais insuffisante pour l'isomorphisme des graphes. Il existe des graphes non isomorphes pour lesquels le test de WL produit des colorations identiques et les considère donc comme "possiblement isomorphes" ; on dit que le test échoue dans ce cas. Un tel exemple est illustré dans la figure suivante :*
-> 
+_How Powerful are Graph Neural Networks?_ showed that standard message-passing architectures (GCN, GAT, SAGE) are bounded in expressivity by the Weisfeiler-Lehman test; moreover, in most cases these GNNs are much weaker than the 1-WL test at telling graph structures apart.
 
-![Untitled](Untitled%201.png)
+Being bounded means that graph structures that this test cannot distinguish cannot be distinguished by MP-GNNs either. In the paper, the authors then designed the most expressive MP-GNN, matching the 1-WL test: the **GIN** model.
 
-### How Powerful are GNN (2018)
+For an architecture to be as expressive as the 1-WL test, some conditions must hold on the neighborhood aggregation and on the **readout** function.
 
-How Powerful are GNN a montré que les architectures standards de message passing (GCN,GAT,SAGE) sont limités en expressivité par le test de Weisfeiler Lehman, de plus dans la plupart des cas ces GNNs ont une capacité bien moindre au 1-WL test pour discerner les structures de graphes.
+**The readout function aggregates all node embeddings to produce a representation of the whole graph.**
 
-Le bornage signifie que les structures de graphes indiscernable par ce test ne le seront également pas par les MP-GNN. Dans l’article How Powerful are GNN les auteurs ont ensuite mis au point le MP-GNN ayant la plus haute expressivité et comparable au 1-WL test, le modèle **GIN**.
+An expressive GNN must never represent two different neighborhoods the same way, so we need an **injective** neighborhood aggregation function. The same holds for the **readout** function that produces the global graph representation.
 
-Pour qu’une architecture soit aussi expressive que le 1-WL Test il faut poser certaines conditions sur l’agrégation du voisinage et sur la fonction **readout.**
-
-**La fonction readout agrège l’ensemble des embeddings des noeuds afin de produire une représentation du graphe.** 
-
-En effet, un GNN expressif ne doit jamais représenter de la même manière deux voisinages différents, il nous faut donc une fonction d’agrégation du voisinage **injective**. De même pour la fonction **readout** générant la représentation globale du graphe. 
-
-**L’objectif est le suivant:** 
+**The goal is the following:**
 
 $$
-\text{Soit } G_{1} \text{ et }   G_{2} \text{ deux graphes non isomorphes alors un GNN } \mathcal{G} \rightarrow \mathbb{R}^{d} \text{ représente } G_{1} \text{ et } G_{2} \text{ différement.}
-\\
- 
-\text{Le test de Weisfeiler-Lehman doit également déterminer que } G_{1} \text{ et } G_{2} \text{ sont isomorphes.} 
+\text{Let } G_{1} \text{ and } G_{2} \text{ be two non-isomorphic graphs; a GNN } \mathcal{A}: \mathcal{G} \rightarrow \mathbb{R}^{d} \text{ should represent } G_{1} \text{ and } G_{2} \text{ differently,}
 $$
 
- Les auteurs introduisent le théorème suivant:
+whenever the Weisfeiler-Lehman test also determines that $G_1$ and $G_2$ are not isomorphic.
+
+The authors introduce the following theorem. Let $\mathcal{A}: \mathcal{G} \rightarrow \mathbb{R}^{d}$ be a GNN. For any two graphs $G_1$ and $G_2$ that the WL test declares non-isomorphic, $\mathcal{A}$ maps them to different representations if the following conditions hold:
+
+a) $\mathcal{A}$ aggregates and updates node representations as
 
 $$
-\text{Soit } \mathcal{A}: \mathcal{G} \rightarrow \mathbb{R}^{d} \text{ un GNN, } \mathcal{A} \text{ est une application qui pour n'importe quels graphes } G_{1} \text{ et } G_{2} \\
-\text{ déclarés comme non isomorphes par le WL-test, les représentent de manière différente si les}\\  
-\text{ conditions suivantes respectent: }
-\\
-
-\\
-\text{a) } \mathcal{A} \text{ agrège et met à jour les représentations des noeuds comme suivant : }\\ 
-h_{v}^{(k)} = \phi(h_{v}^{(k-1)},f(\{(h_{u}^{(k-1)} : u \in \mathcal{N}(v)\}))
-\\
-\text{b) La fonction \textit{readout}  opérant sur le \textit{multiset} des représentations de noeuds est injective.} 
+h_{v}^{(k)} = \phi\left(h_{v}^{(k-1)}, f\left(\{ h_{u}^{(k-1)} : u \in \mathcal{N}(v) \}\right)\right)
 $$
 
-### Dépasser le 1-WL Test
+where the functions $f$ (operating on multisets) and $\phi$ are injective;
 
-**Test k-WL**
+b) the _readout_ function, operating on the _multiset_ of node representations, is injective.
 
-Les recherches récentes sur les GNNs ont essayé de dépasser la borne d’expressivité du test 1-WL. 
+### Going beyond the 1-WL test
 
-En effet, le test 1-WL est limité et ne permet pas de prendre en compte des structures simples de graphe comme les triangles clos ou les motifs circulaires ([Can Graph Neural Networks Count Substructures?](https://arxiv.org/abs/2002.04025))**.**
+**The k-WL test**
 
-Le test WL peut être généralisé à une hiérarchie de tests d'ordre supérieur, connue sous le nom de test k-WL. Cette hiérarchie a été utilisée pour caractériser la puissance d'expressivité des GNNs et pour inspirer la conception d'architectures de nouveaux GNNs.
+Recent research on GNNs has tried to exceed the expressivity bound of the 1-WL test.
 
-Dans l’algorithme k-WL (k>1) on ne cherche plus la coloration d’un noeud, mais la coloration d’un k-tuple de nœuds. 
+The 1-WL test is limited and cannot capture simple graph structures such as closed triangles or cycles ([Can Graph Neural Networks Count Substructures?](https://arxiv.org/abs/2002.04025)).
 
-Par exemple dans le 2-WL test on considérera non plus un noeud et son voisinage mais une paire de noeud. On n’agrège plus la coloration des noeuds voisins (cas 1-WL) mais la coloration des triangles voisins. 
+The WL test can be generalized into a hierarchy of higher-order tests, known as the k-WL tests. This hierarchy has been used to characterize the expressive power of GNNs and to inspire the design of new GNN architectures.
 
-Cela permet au test de décrire des motifs plus complexes, et donc de dépasser l’expressivité du 1-WL test. 
+In the k-WL algorithm (k > 1), we no longer color a node but a k-tuple of nodes.
 
-![Capture d’écran de 2023-01-25 16-57-24.png](Capture_dcran_de_2023-01-25_16-57-24.png)
+For example, the 2-WL test no longer considers a node and its neighborhood but a pair of nodes. Instead of aggregating the colors of neighboring nodes (1-WL case), it aggregates the colors of neighboring triangles.
 
-Dans l’exemple ci dessus, le 1-WL test détecte une isomorphie tandis que le test 3-WL distingue les deux graphes. 
+This lets the test describe more complex patterns, and so exceed the expressivity of the 1-WL test.
 
-**Bien que plus expressif, la complexité du test k-WL est beaucoup plus grande, du fait de considérer chaque k-tuples de nœuds du graphe, y compris ceux qui ne sont pas adjacents.**
+![1-WL vs 3-WL](/assets/img/posts/expressivity/Capture_dcran_de_2023-01-25_16-57-24.png)
 
-La vidéo ci dessous permet de mieux comprendre le test WL et de mieux visualiser les cas en plus haute dimension. 
+In the example above, the 1-WL test concludes the graphs are isomorphic, while the 3-WL test distinguishes them.
+
+**Although more expressive, the k-WL test is far more expensive, since it considers every k-tuple of nodes in the graph, including non-adjacent ones.**
+
+The video below helps understand the WL test and visualize the higher-dimensional cases.
 
 [https://www.youtube.com/watch?v=YHeeAB_XRS4&list=PLeKJtN5YzWyPoNyqL34y5Jrag7aqgQRn5&index=10](https://www.youtube.com/watch?v=YHeeAB_XRS4&list=PLeKJtN5YzWyPoNyqL34y5Jrag7aqgQRn5&index=10)
 
-Une playlist complète sur l’isomorphisme des graphes, l’algorithme de Weisfeiler-Lehmann ainsi que les graphes transformers est disponible [ici.](https://www.youtube.com/playlist?list=PLeKJtN5YzWyPoNyqL34y5Jrag7aqgQRn5) 
+A full playlist on graph isomorphism, the Weisfeiler-Lehman algorithm and graph transformers is available [here](https://www.youtube.com/playlist?list=PLeKJtN5YzWyPoNyqL34y5Jrag7aqgQRn5).
 
-- Ressources supplémentaires sur l’algorithme WL ainsi que ses adaptations en Machine Learning
-    - [**Weisfeiler and Leman go Machine Learning: The Story so far**](https://arxiv.org/abs/2112.09992)
-    - [**A survey on the expressive power of graph neural networks**](https://arxiv.org/abs/2003.04078)
-    - [**A Short Tutorial on The Weisfeiler-Lehman Test And Its Variants**](https://arxiv.org/abs/2201.07083)
+- Further resources on the WL algorithm and its adaptations in machine learning:
+  - [**Weisfeiler and Leman go Machine Learning: The Story so far**](https://arxiv.org/abs/2112.09992)
+  - [**A survey on the expressive power of graph neural networks**](https://arxiv.org/abs/2003.04078)
+  - [**A Short Tutorial on The Weisfeiler-Lehman Test And Its Variants**](https://arxiv.org/abs/2201.07083)
 
-**K-GNN**
+**k-GNNs**
 
-Des contributions comme *[WL Go Neural : Higher Order GNN](https://arxiv.org/abs/1810.02244)*  ou *[Provably Powerful Graph Networks](https://arxiv.org/abs/1905.11136)* arrivent à concevoir des k-GNN en se basant sur le test k-WL et ainsi atteindre la même expressivité théorique. Cependant ces techniques ont une grande complexité en mémoire et en temps et sont souvent inapplicable sur des gros graphes.
+Contributions such as _[Weisfeiler and Leman Go Neural: Higher-order Graph Neural Networks](https://arxiv.org/abs/1810.02244)_ or _[Provably Powerful Graph Networks](https://arxiv.org/abs/1905.11136)_ design k-GNNs based on the k-WL test and reach the same theoretical expressivity. However, these techniques have a high memory and time complexity and are often impractical on large graphs.
 
- 
+![k-GNNs](/assets/img/posts/expressivity/Capture_dcran_de_2023-01-25_16-54-27.png)
 
-![Capture d’écran de 2023-01-25 16-54-27.png](Capture_dcran_de_2023-01-25_16-54-27.png)
+**Subgraph-based GNNs**
 
+Decomposing a graph into several subgraphs processed by a GNN greatly improves model expressivity. Bouritsas et al. present a fast method that is more expressive than the 1-WL test: **[Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting](https://arxiv.org/abs/2006.09252)** (ICLR 2021).
 
-**Méthodes de GNN sur sous graphes**
-
-La décomposition d’un graphe en plusieurs sous graphes traitées par un GNN améliore grandement l’expressivité des modèles. Bouritsas et al. présente leur contribution d’une méthode rapide et plus expressive que le 1-WL test:  **[Improving Graph Neural Network Expressivity via Subgraph Isomorphism Counting](https://arxiv.org/abs/2006.09252)** (ICLR 2021)
-
-Une note sur ce papier est détaillée dans ce post de M.Bronstein. 
+A note on this paper is detailed in this post by M. Bronstein:
 
 [Beyond Weisfeiler-Lehman: using substructures for provably expressive graph neural networks](https://towardsdatascience.com/beyond-weisfeiler-lehman-using-substructures-for-provably-expressive-graph-neural-networks-d476ad665fa3)
 
-L’idée est de faire en sorte de traîter les messages différement et de manière explicite en fonction de la structure locale du graphe. Les messages sont traitées dans des fonctions additionnelles décrivant la structure associée à chaque noeud. Ainsi les messages provenant de structures différentes ne seront pas agrégés de la même manière. Pour ce faire il sera nécessaire de compter certaines sous structures, le choix de ces sous structures permet d’injecter un biais inductif qui peut grandement améliorer l’apprentissage pour certaines tâches (par ex. compter les triangles clos dans un réseau social ou les structures circulaires dans les interactions de protéines). 
+The idea is to treat messages differently, and explicitly, depending on the local structure of the graph. Messages go through additional functions describing the structure associated with each node, so messages coming from different structures are not aggregated the same way. This requires counting certain substructures; choosing these substructures injects an inductive bias that can greatly improve learning on some tasks (e.g. counting closed triangles in a social network, or cycles in protein interactions).
 
-Leur modèle **GSN** (Graph Substructure Networks) permet de théoriquement dépasser l’expressivité du test 1-WL tout en gardant la notion de localité et la même complexité **(pendant l’entraînement)** que les architectures de Message Passing contrairement aux méthodes k-GNN dont on a discuté précedemment. 
+Their model **GSN** (Graph Substructure Networks) theoretically exceeds the expressivity of the 1-WL test while keeping locality and the same complexity **(during training)** as message-passing architectures, unlike the k-GNN methods discussed above.
 
-Méthode:
+Method:
 
-Le coeur du modèle GSN est le préprocessing construisant les features de noeuds encodant les sous structures prédifinis dans le graphe $G$. 
+The core of GSN is a preprocessing step that builds node features encoding predefined substructures of the graph $G$.
 
-Il faut au préalable définir un ensemble de structures que l’on cherche à identifier dans notre graphe:                                         
+We first define a set of structures we want to identify in the graph:
 
 $\mathcal{H} = \{H_{1},H_{2},...,H_{k}\}$
 
-L’ensemble $\mathcal{H}$  contient des sous structures comme par exemple une 3-clique ou un cycle d’une longueur définie. 
+The set $\mathcal{H}$ contains substructures such as a 3-clique or a cycle of a given length.
 
-Pour chaque $H$ trouve l’ensemble de ses sous graphes isomorphes dans $G$ que l’on note $G_{S}$.
+For each $H$, we find the set of its isomorphic subgraphs in $G$, denoted $G_{S}$.
 
-Pour chaque noeuds $v \in V_{G_{S}}$ on infère son rôle dans $H$ en obtenant l’orbite de son application $ f(v) $ dans  $H$ et $Orb_{H}(f(v))$. En comptant toute les apparences possible des différentes orbites dans $v$ on obtient la feature structurelle de $v, \mathbf{x}_{H}^{V}$. 
+For each node $v \in V_{G_{S}}$, we infer its role in $H$ by getting the orbit of its mapping $f(v)$ in $H$, $Orb_{H}(f(v))$. By counting all possible appearances of the different orbits at $v$, we obtain the structural feature of $v$, $\mathbf{x}_{H}^{V}$.
 
-La complexité de ce preprocessing est dans le pire des cas $\mathcal{O}(n^{k})$ avec $k$ le cardinal de l’ensemble $\mathcal{H}$. 
+The worst-case complexity of this preprocessing is $\mathcal{O}(n^{k})$, with $k$ the size of the substructures in $\mathcal{H}$.
 
-![Capture d’écran de 2023-01-26 14-41-27.png](Capture_dcran_de_2023-01-26_14-41-27.png)
+![GSN substructure counting](/assets/img/posts/expressivity/Capture_dcran_de_2023-01-26_14-41-27.png)
 
-Dans la figure (partie gauche) ci dessous on voit qu’au voisinage du noeud courant (bleu) se trouve un motif 3-cycle (rouge) 4 noeuds (jaune) et trois chemins de longueur 3. 
+In the figure (left part), the neighborhood of the current node (blue) contains a 3-cycle (red), a 4-node pattern (yellow) and three paths of length 3.
 
-C’est le même principe pour la partie droite de la figure où l’on cible non plus un noeud mais une arête. 
+The right part of the figure follows the same principle, targeting an edge instead of a node.
 
-Le message passing est définie comme suivant: 
+Message passing is defined as follows:
 
-![Capture d’écran de 2023-01-26 14-46-11.png](Capture_dcran_de_2023-01-26_14-46-11.png)
+![GSN message passing](/assets/img/posts/expressivity/Capture_dcran_de_2023-01-26_14-46-11.png)
 
-$M^{t+1}$ est une fonction d’agégation des messages (MLP, attention…) $UP^{t+1}$ est la fonction de mise à jour de la représentation courante du noeud.
+$M^{t+1}$ is a message-aggregation function (MLP, attention…) and $UP^{t+1}$ is the update function of the current node representation.
 
-Ce sont les mêmes opérations que dans un MP-GNN classique. Les deux variantes **GSN-e** et **GSN-v** représentent dans le premier cas le comptage des sous structures autour d’une arête cible et dans le second cas autour d’un noeud cible. 
+These are the same operations as in a standard MP-GNN. The two variants **GSN-e** and **GSN-v** count substructures around a target edge and around a target node, respectively.
 
-**GSN est un modèle GNN-message passing augmenté à l’aide de features préalablement construites encodant des sous structures dans le voisinage local d’un noeud ou d’une arête.**
+**GSN is a message-passing GNN augmented with precomputed features that encode substructures in the local neighborhood of a node or an edge.**
 
-Le choix des sous structures est crucial pour une bonne généralisation du modèle. Il est important d’avoir une bonne connaissance à priori de la distribution du graphe (privilégié les graphlets dans les interactions de protéines, et les cliques et triangles dans les réseaux sociaux par exemple). Le choix des sous structures est une question ouverte. 
+The choice of substructures is crucial for the model to generalize well. Good prior knowledge of the graph distribution matters (for instance, favoring graphlets for protein interactions, and cliques and triangles for social networks). How to choose the substructures remains an open question.
 
-Une place importante est consacré à l’expressivité du GSN dans leur article, ils prouvent que le GSN est **au moins** aussi expressif que le 1-WL test, et qu’en fonction du choix des sous structures, ils arrivent à atteindre une expressivité égale au test k-WL. 
+A large part of the paper is devoted to GSN's expressivity: the authors prove that GSN is **at least** as expressive as the 1-WL test, and that, depending on the chosen substructures, it can reach the expressivity of the k-WL test.
 
-![Untitled](Untitled%202.png)
+![GSN expressivity](/assets/img/posts/expressivity/Untitled%202.png)
 
-                                                    
+### Since GSN
 
-### Depuis le modèle GSN
-
-**Basé sur le blogpost de M.Bronstein :**
+**Based on M. Bronstein's blog post:**
 
 [Using subgraphs for more expressive GNNs](https://towardsdatascience.com/using-subgraphs-for-more-expressive-gnns-8d06418d5ab)
 
-Le modèle GSN a conduit à de nombreuses contributions dans le domaine des GNNs basés sur les sous graphes. 
+GSN led to many contributions in the field of subgraph-based GNNs.
 
 **Dropout**
 
-Il a été montré que l’on peut exploiter des sous-graphes et ainsi augmenter l’expressivité des GNNs à l’aide du dropout comme les modèles **[DropGNN](https://arxiv.org/pdf/2111.06283.pdf)** (NIPS 2021) ou **[DropEdge](https://openreview.net/pdf?id=Hkx1qkrKPr) (ICLR 2020).** En retirant avec une certaine probabilité des noeuds de notre graphe pendant le message passing et en répétant ce dropout un certains nombre de fois on peut obtenir plusieurs embeddings de sous graphe au voisinage d’un noeud. 
+It has been shown that subgraphs can be exploited to increase GNN expressivity through dropout, as in **[DropGNN](https://arxiv.org/pdf/2111.06283.pdf)** (NeurIPS 2021) or **[DropEdge](https://openreview.net/pdf?id=Hkx1qkrKPr)** (ICLR 2020). By randomly removing nodes from the graph during message passing, and repeating this dropout a number of times, we obtain several subgraph embeddings around a node.
 
-Cette méthode permet de ne pas devoir sélectionner au préalable des sous structures.
+This method does not require selecting substructures beforehand.
 
-**GNN et reconstruction** 
+**GNNs and reconstruction**
 
-[*Reconstruction for Powerful Graph Representations](https://arxiv.org/abs/2110.00577) (NIPS 2021)* est un modèle se basant sur la conjecture de reconstruction d’un graphe. 
+_[Reconstruction for Powerful Graph Representations](https://arxiv.org/abs/2110.00577)_ (NeurIPS 2021) is based on the graph reconstruction conjecture.
 
-> *De manière informelle, la conjecture de reconstruction en théorie des graphes dit que les graphes sont déterminés de manière unique par leurs sous-graphes.*
-> 
+> _Informally, the reconstruction conjecture in graph theory says that graphs are uniquely determined by their subgraphs._
 
-Les GNN de reconstruction k proposés dans ce modèle appliquent un MP-GNN à chacun des sous-graphes induits de taille k et additionnent les embeddings résultants. Comme ces sous-graphes peuvent être trop nombreux , il faut recourir à l'échantillonnage (similaire aux GNN Dropout).
-**Stars to Subgraphs**
+The k-reconstruction GNNs proposed in this paper apply an MP-GNN to each induced subgraph of size k and sum the resulting embeddings. Since there can be too many such subgraphs, sampling is needed (similar to dropout GNNs).
 
-[*From Stars to Subgraphs: Uplifting Any GNN with Local Structure Awareness](https://arxiv.org/abs/2110.03753) (ICLR 2022)*
+**From stars to subgraphs**
 
-![Untitled](Untitled%203.png)
+_[From Stars to Subgraphs: Uplifting Any GNN with Local Structure Awareness](https://arxiv.org/abs/2110.03753)_ (ICLR 2022)
 
-Dans les MP-GNN et dans 1-WL, l’agrégation est une structure en étoile. Pour étendre cette représentation limité Zhao et al. utilise les **rooted subgraphs.** 
+![Stars to subgraphs](/assets/img/posts/expressivity/Untitled%203.png)
 
-Les **rooted subgraphs** en plus de capturer les informations du voisinage comme le motif en étoile (figure gauche) on capture également sa connectivité (figure droite). 
+In MP-GNNs and in 1-WL, aggregation follows a star pattern. To extend this limited representation, Zhao et al. use **rooted subgraphs**.
 
-Cette façon d’agréger le voisinage d’un noeud est appelée **Sous-graphes 1-WL**. Dans cet article ils montrent que c’est au moins aussi expressif que l’algorithme 3-WL. 
+Besides capturing neighborhood information like the star pattern (left), **rooted subgraphs** also capture its connectivity (right).
 
-Les GNN basés sur les Sous-graphes 1-WL encode tout les sous graphes avec un MP-GNN. 
+This way of aggregating a node's neighborhood is called **subgraph-1-WL**. The paper shows it is strictly more expressive than 1-WL and that it can distinguish some graphs that 3-WL cannot.
 
-En plus des architectures de dropout et les architectures de reconstruction, cette méthode a l’avantage d’agréger des sous graphes impliquant plusieurs fois le même noeud. 
+Subgraph-1-WL GNNs encode every subgraph with an MP-GNN.
 
-**Sous graphe équivariant**
+Compared with dropout and reconstruction architectures, this method has the advantage of aggregating subgraphs that involve the same node several times.
 
-**[Equivariant Subgraph Aggregation Networks](https://arxiv.org/abs/2110.02910)** ESAN (ICLR 2022)
+**Equivariant subgraphs**
 
-Plutôt que d’encoder des **multisets** de noeuds comme dans 1-WL ou les MP-GNN, ils proposent d’encoder un multisets de sous graphes. 
+**[Equivariant Subgraph Aggregation Networks](https://arxiv.org/abs/2110.02910)**, ESAN (ICLR 2022)
 
-![Capture d’écran de 2023-01-26 16-38-25.png](Capture_dcran_de_2023-01-26_16-38-25.png)
+Rather than encoding **multisets** of nodes as in 1-WL or MP-GNNs, they propose to encode a multiset of subgraphs.
 
-Pour constituer ces multisets de sous graphes ils proposent 4 politiques de séléctions : 
+![ESAN](/assets/img/posts/expressivity/Capture_dcran_de_2023-01-26_16-38-25.png)
 
-- Suppression de noeud
-- Suppression d’arêtes
-- 2 variantes des égo-subgraphs (voir paragraphe précédent).
+To build these multisets of subgraphs, they propose four selection policies:
 
-Leur modèle est un framework equivariant pour générer et traiter ces sous graphes. 
+- node deletion
+- edge deletion
+- two variants of ego-subgraphs (see the previous paragraph).
 
-Pourquoi équivariant ? 
+Their model is an equivariant framework to generate and process these subgraphs.
 
-![Untitled](Untitled%204.png)
+Why equivariant?
 
-À partir du graphe en entrée (figure gauche) on peut avec la méthode de suppression d’arête générer 3 sous graphes (figure du milieu), ce qui conduit à 3 représentation tensorielle différentes, pourtant il ne s’agit que d’une permutation du même motif de sous graphe. 
+![Why equivariance](/assets/img/posts/expressivity/Untitled%204.png)
 
-Le framework equivariant a pour but de générer la même représentation pour chacune de ces trois représentations à l’aide des groupes de symétries, ESAN est basé sur les travaux présentés par [Maron et al.](https://arxiv.org/abs/2002.08599) (apprentissage de motif symétrique) 
+From the input graph (left), edge deletion can generate 3 subgraphs (middle), which leads to 3 different tensor representations, even though they are only permutations of the same subgraph pattern.
 
- 
+The equivariant framework aims to produce the same representation for each of these three using symmetry groups. ESAN builds on the work of [Maron et al.](https://arxiv.org/abs/2002.08599) (learning symmetric patterns).
 
-![Untitled](Untitled%205.png)
+![ESAN architecture](/assets/img/posts/expressivity/Untitled%205.png)
 
-ESAN est composé de deux encodeurs (orange et jaune), le premier encode les structures de sous graphes en parallèle à l’aide de réseau siamois, le second **information sharing** est une agrégation (somme) des différents tenseurs de représentations des sous graphes. 
-L’encodeur orange est donc une généralisation des modèles du type Dropout ou Reconstruction, et le module de partage d’information est une généralisation de STAR. 
+ESAN has two encoders (orange and yellow): the first encodes the subgraph structures in parallel with a Siamese network; the second, **information sharing**, aggregates (sums) the representation tensors of the different subgraphs. The orange encoder generalizes dropout- or reconstruction-style models, and the information-sharing module generalizes the stars-to-subgraphs approach.
 
-**Un des enjeux de toute ces architectures de sous-graphes est l’échantillonnage, en effet l’espace des sous graphes autour d’un noeud cible est souvent extrêmement grand. Il est donc important soit de prédéfinir les structures (ce qui nécessite une connaissance à priori sur la distribution du graphe) soit d’échantillonner (de manière plus ou moins intelligente) les structures de sous graphes.**
+**A key challenge for all these subgraph architectures is sampling: the space of subgraphs around a target node is often extremely large. So we must either predefine the structures (which requires prior knowledge of the graph distribution) or sample the subgraph structures (more or less cleverly).**
 
-**[Plus récemment (2022)](https://towardsdatascience.com/graph-ml-in-2023-the-state-of-affairs-1ba920cb9232#8e6c)**
+**[More recently (2022)](https://towardsdatascience.com/graph-ml-in-2023-the-state-of-affairs-1ba920cb9232#8e6c)**
 
-> *Dans le domaine des architectures plus expressives (que 1-WL), les GNN à sous-graphes sont la plus grande tendance. Parmi celles-ci, trois approches se distinguent :
+> _Among architectures more expressive than 1-WL, subgraph GNNs are the biggest trend. Several approaches stand out:_
+>
+> 1️⃣ [Subgraph Union Networks (SUN) by Frasca, Bevilacqua, et al.](https://arxiv.org/abs/2206.11140) provide a full analysis of the design space and expressivity of subgraph GNNs, showing they are bounded by the 3-WL test.
+>
+> 2️⃣ [Ordered Subgraph Aggregation Networks](https://arxiv.org/abs/2206.11168) (OSAN) by Qian, Rattan, et al. design a hierarchy of subgraph-enhanced GNNs (k-OSAN) and find that k-OSANs are incomparable to k-WL but strictly bounded by (k+1)-WL. A particularly cool part of OSAN is the use of [Implicit MLE (NeurIPS'21)](https://arxiv.org/abs/2106.01798), a differentiable discrete sampling technique, to sample the ordered subgraphs.
+>
+> 3️⃣ [SpeqNets](https://arxiv.org/abs/2203.13913) by Morris et al. design a permutation-equivariant hierarchy of graph networks that balances scalability and expressivity.
+>
+> 4️⃣ [GraphSNN](https://openreview.net/pdf?id=uxgg9o7bI_3) by Wijesinghe and Wang derive expressive models from the overlap between subgraph isomorphisms and subtree isomorphisms.
 
- 1️⃣ [Subgraph Union Networks (SUN) de Frasca, Bevilacqua, et al.](https://arxiv.org/abs/2206.11140) qui fournissent une analyse complète de l'espace de conception et de l'expressivité des GNN à sous-graphes, montrant qu'ils sont limités par le test 3-WL ;
+## Expressivity of dynamic GNNs
 
- 2️⃣ [Ordered Subgraph Aggregation Networks](https://arxiv.org/abs/2206.11168) (OSAN) de Qian, Rattan, et al conçoivent une hiérarchie de sous graphes améliorés par des GNNs (k-OSAN) et constatent que les k-OSAN sont incomparables aux k-WL mais sont strictement limités par (k+1)-WL. Une partie particulièrement cool d'OSAN est l'utilisation de [Implicit MLE (NeurIPS'21)](https://arxiv.org/abs/2106.01798), une technique d'échantillonnage discret différentiable, pour l'échantillonnage des sous-graphes ordonnés.
- ️
-3️⃣ [SpeqNets](https://arxiv.org/abs/2203.13913) de Morris et al. conçoit une hiérarchie permutationnelle équivariante de réseaux de graphes qui trouve un équilibre entre la scalabilité et l'expressivité.
+## Provably Expressive Temporal Graph Networks (NeurIPS 2022)
 
- 4️⃣ [GraphSNN](https://openreview.net/pdf?id=uxgg9o7bI_3) de Wijesinghe et Wang dérive des modèles expressifs basés sur le chevauchement des isomorphismes de sous-graphes et des isomorphismes de sous-arbres.*
-> 
+### Context
 
-## Expressivité des GNNs dynamiques :
+This paper studies the expressivity of TGNs (Temporal Graph Networks) by grouping them into two families: TGNs that aggregate temporal random walks, **WA-TGN** (CAW), and models built on message passing, **MP-TGN** (TGN, TGAT, JODIE…). In both cases the paper considers continuous-time dynamic graphs (**CTDG**); discrete-time graphs (DTDG) can be directly converted into CTDGs.
 
-## Provably Expressive Temporal Graph Networks (Neurips 2022)
+**Reminder: state-of-the-art TGN architectures on CTDGs**
 
-### Contexte:
+MP-TGN family:
 
-Ce papier étudie l’expressivité des TGN (Temporal Graph Networks) en classifiant deux familles de TGN; la première étant les TGN agrégeant des marches aléatoires temporelles **WA-TGN** (CAW), la seconde contient les modèles construit sur du message passing **MP-TGN**(TGN, TGAT, JODIE…), dans les deux cas on s’intéresse au Graphe dynamique continue (**CTDG**), les DTDG pouvant être immédiatement converti en CTDG. 
+- **[Know-Evolve / temporal point processes](https://arxiv.org/abs/1803.04051)**: approaches based on temporal point processes (TPP), parameterized by a neural network (RNN).
+- **[JODIE](https://arxiv.org/abs/1908.01207)**: an RNN approach where nodes are updated with a time-series model. In the bipartite case, two RNNs are used (users and items). A temporal projection updates a node's memory; if a node has not been involved in any event for some time, its memory is considered stale.
+- **[TGAT](https://arxiv.org/abs/2002.07962)**: the first architecture to use time embeddings. During message aggregation, a time embedding (Time2Vec) represents the time elapsed between the present time t and the last interaction with the neighbor. The aggregation function is similar to GAT (attention weights over neighbors). The aggregated GNN layers Z(t) are then linearly projected into queries, keys and values, as in transformers.
+- **[TGN](https://arxiv.org/abs/2006.10637)**: a generic message-passing framework. On top of TGAT, TGN-attn uses a memory module for message passing and node updates, and also uses Time2Vec during message aggregation.
 
-**Rappel des architectures SOTA des TGN sur CTDG.**
+WA-TGN family:
 
-|                    MP-TGN |                   WA-TGN |
-| --- | --- |
-| https://arxiv.org/abs/1803.04051: Les approches basées sur les processus ponctuel et temporels (TPP), dans lesquelles les processus de points temporels sont paramétrés par un réseau de neurones (RNN). | https://arxiv.org/abs/2101.05974
-De la famille des WA-TGN, CAW-N génère des marches aléatoires anonymes (anonyme important pour que le modèle soit inductif) et causal. À partir d’une arête cible (u,v), on génère une marche aléatoire pour déterminer les noeuds responsable dans la création de ce lien. Cette marche est encodé à l’aide d”un RNN constituant la représentation du lien uniquement .  |
-| https://arxiv.org/abs/1908.01207: Approche RNN, les noeuds sont màj à l’aide d’un modèle de time serie. Cas de graphe biparti, deux RNN (utilisateurs et items). Une projection temporelle est utilisée pour màj la mémoire d’un noeud. Si le noeud n’a été impliqué dans aucun événement depuis un certain temps, sa mémoire est considérée comme périmée. 
- |  |
-| https://arxiv.org/abs/2002.07962: Première architecture utilisant du Time Embedding. Durant l’agrégation des messages on utilise un time embedding (Time2Vec) pour représenter l’écoulement du temps entre le moment présent t et le moment de la dernière interaction avec le noeud voisin.
-La fonction d’agrégation est similaire à GAT (utilisation de facteur d’attention dans l’agrégation des voisins). 
-L’ensemble des couches GNN agrégés Z(t) est ensuite projeté linéairement pour obtenir les “query” “key” et “value”, similaire aux transformers.  |  |
-| https://arxiv.org/abs/2006.10637Framework générique de message passing. En plus de TGAT, TGN-atn utilise un module de mémoire pour le MP et la màj des noeuds. 
-Durant l’agrégation des messages on utilise également Time2Vec. |  |
+- **[CAW-N](https://arxiv.org/abs/2101.05974)**: generates anonymous (important for the model to be inductive) and causal random walks. Starting from a target edge (u, v), it samples random walks to find the nodes responsible for creating this link. The walks are encoded with an RNN, which forms the representation of the link only.
 
-L’objectif de cette recherche est d’étendre les études de l’expressivité des GNN statiques (GIN: How Powerful are GNN, les connections aux algorithmes basés sur le test WL…)  aux graphes temporelles en définissant un test temporelle-1-WL. 
+The goal of this work is to extend the study of static GNN expressivity (GIN, _How Powerful are GNNs?_, links to WL-based algorithms…) to temporal graphs, by defining a temporal 1-WL test.
 
-À l’issue de l’étude de l’expressivité des GNN temporelles, les auteurs proposent une nouvelle architecture **PINT**. En exploitant un message passing temporelle injectif ainsi que des **relatives positional features** ils montrent des gains important par rapport aux archi existantes en ayant une expressivité comparable au test temporelle 1-WL. 
+After studying the expressivity of temporal GNNs, the authors propose a new architecture, **PINT**. Using injective temporal message passing and **relative positional features**, they show large gains over existing architectures while matching the expressivity of the temporal 1-WL test.
 
-![Capture d’écran de 2023-01-27 14-44-09.png](Capture_dcran_de_2023-01-27_14-44-09.png)
+![PINT overview](/assets/img/posts/expressivity/Capture_dcran_de_2023-01-27_14-44-09.png)
 
-### Isomorphisme dans les graphes temporelles
+### Isomorphism in temporal graphs
 
-L’expressivité des modèles TGNs est évaluée en fonction de leurs capacités à différencier des structures non isomorphes dans le graphe. 
-Deux nœuds n’ayant pas la même structure locale et n’ayant pas établi des connections avec son voisinage au même instant $t$ ne doivent pas avoir la même représentation. 
+The expressivity of TGNs is evaluated by their ability to tell apart non-isomorphic structures in the graph. Two nodes that do not share the same local structure, or did not connect to their neighborhood at the same time $t$, should not get the same representation.
 
- 
+To measure the expressivity of an MP-TGN, we evaluate its ability to map two distinct nodes to different points of the embedding space:
 
-Afin de mesurer l’expressivité d’un MP-TGN on évalue leurs capacités à représenter de manière différente dans l’espace des embeddings deux noeuds distincts. 
+$u\text{ and } v \text{ are different, so } h_{u}^{(L)}(t) \neq h_{v}^{(L)}(t).$
 
-$u\text{ et } v \text{ sont différents alors } h_{u}^{(L)}(t) \neq h_{v}^{(L)}(t).$
+The computation of a node $v$'s representation at time $t$ can be described with a TCT (**Temporal Computation Tree**), denoted $T_{v}(t)$.
 
-Le calcul de représentation d’un noeud $v$ à un temps $t$  peut être décrit avec un TCT (**Temporal Computation Tree**) que l’on note $T_{v}(t)$.
+![Temporal computation trees](/assets/img/posts/expressivity/Capture_decran_2023-01-30_a_11.38.27.png)
 
- 
+The TCT is a computation tree induced from a source node.
 
-![Capture d’écran 2023-01-30 à 11.38.27.png](Capture_decran_2023-01-30_a_11.38.27.png)
+On the left is a temporal graph: colors are node _features_, and $t_{1},t_{2}$ are the times at which nodes connect. On the right are the depth-2 TCTs of nodes $u$ and $v$.
 
-Le TCT est un arbre de calcul induit à partir d’un nœud source. 
+If an MP-TGN of depth $L$ gives different representations to $u$ and $v$, then $T_{u}(t)$ and $T_{v}(t)$ are not isomorphic.
 
-À gauche, on a un graphe temporelle, les couleurs représentent les *features* de noeuds, $t_{1},t_{2}$  sont les instants de connections entre les noeuds. À droite, on a les TCT d’une profondeur 2 pour les noeuds $u$ et $v.$ 
+In the example above, models such as TGN-attn or TGAT cannot distinguish $T_{u}(t)$ from $T_{v}(t)$. Both use the mean of messages as aggregation function; since the proportion of _features_ is the same in both cases, both models give $u$ and $v$ the same representation.
 
-Si un MP-TGN d’une profondeur $L$  est capable de donner une représentation différente pour $u$ et $v$, alors $T_{u}(t) \text{ et } T_{v}(t)$ ne sont pas isomorphes.
+![Limits of MP-TGNs](/assets/img/posts/expressivity/Capture_decran_2023-01-30_a_12.10.35.png)
 
-Dans l’exemple de la figure précédente, les modèles comme TGN-att ou TGAT ne sont pas capable de distinguer $T_{u}(t)$ et $T_{v}(t)$. En effet ces deux modèles utilisent la moyenne des messages comme fonction d’agrégation, comme on a la même proportion de *features* dans les deux cas, les deux modèles donneront la même représentation à $u$  et $v.$
+Simple structures such as cycles or cliques cannot be modeled by current MP-TGNs or WA-TGNs, even when the MP-TGN is as expressive as the temporal 1-WL test.
 
-![Capture d’écran 2023-01-30 à 12.10.35.png](Capture_decran_2023-01-30_a_12.10.35.png)
+The paper also discusses MP-TGNs with a memory module, showing that if the TCT depth is smaller than the number of layers $L$, the memory module does not improve the model's expressivity.
 
-Des structures simples telles que les cycles ou les cliques ne sont pas modélisable par les MP-TGN ou les WA-TGN actuel, et ce même dans le cas où les MP-TGN ont une expressivité similaire au test temporel 1-WL.
+**Extending 1-WL to the temporal case**
 
-Dans le papier, une place est accordée à l’expressivité des MP-TGN comprenant un module de mémoire stipulant que si la profondeur du TCT est inférieur au nombre de couche $L$ , ce module n’améliorera pas l’expressivité du modèle. 
+1-WL is an isomorphism test on static graphs based on iterative node recoloring: at the end of the process, if two graphs have the same coloring, they are (**possibly**) isomorphic.
 
-**Extension du 1-WL au cas temporel.**
+This algorithm extends to temporal graphs by viewing the dynamic graph as a multigraph (several links possible between two nodes).
 
-1-WL est un test d’isomorphisme sur des graphes statiques se basant sur la recoloration itérative des nœuds du graphe, à la fin du processus si deux graphes ont la même colorations alors ils sont (**probablement**) isomorphes.
+### The PINT model
 
-Il est possible d’étendre cet algorithme aux graphes temporels, il suffit de considérer le graphe dynamique comme un multigraphe (plusieurs liens possible entre chaque noeuds). 
+The authors present PINT (**p**osition-encoding **in**jective **t**emporal graph net). The model has two components:
 
-### Modèle PINT
+1. Injective message aggregation and representation updates in a temporal setting.
+2. Positional _features_ generated from the TCTs.
 
-Les auteurs présent PINT (**p**osition-encoding **in**jective **t**emporal graph net*). Ce modèle est construit sur deux composantes: 
+**Injective aggregation**
 
-1. L’agrégation injective des messages ainsi que la mise à jour des représentations dans un contexte temporel. 
-2. Générer des ***features** positionnel à partir des arbres de calcul TCT. 
-
-**Agrégation injective.** 
-
-Comme dans GIN, le meilleur moyen pour maximiser l’expressivité des modèles MP-TGN est d’utiliser des fonctions injective d’agrégation. Dans le cas des graphes dynamiques il est important de considérer à quel instant les liens ont été établi entre deux noeuds. Un biais inductif courant est de considérer avec plus d’importances les événements récents (TGN,TGAT). 
+As in GIN, the best way to maximize the expressivity of MP-TGNs is to use injective aggregation functions. On dynamic graphs, it matters when links were created between two nodes. A common inductive bias is to give more weight to recent events (TGN, TGAT).
 
 $$
 \tilde{h}_v^{(\ell)}(t)=\sum_{\left(u, e, t^{\prime}\right) \in \mathcal{N}(v, t)} \operatorname{MLP}_{\mathrm{agg}}^{(\ell)}\left(h_u^{(\ell-1)}(t) \| e\right) \alpha^{-\beta\left(t-t^{\prime}\right)}
 $$
 
-Comme fonction injective ils utilisent comme dans GIN, des MLP (approximateurs universels de fonctions continues). 
+As injective functions they use MLPs, as in GIN (universal approximators of continuous functions).
 
-Pour donner plus d’importances aux événements récents PINT utilise une décroissance temporelle linéairement exponentielle, $\alpha^{-\beta(t-t^{'})}, \alpha \text{ et }\beta$ sont des hyper-paramètres. 
+To give more weight to recent events, PINT uses an exponential time decay, $\alpha^{-\beta(t-t^{'})}$, where $\alpha$ and $\beta$ are hyperparameters.
 
 $$
 h_v^{(\ell)}(t)=\operatorname{MLP}_{\mathrm{upd}}^{(\ell)}\left(h_v^{(\ell-1)}(t) \| \tilde{h}_v^{(\ell)}(t)\right)
 $$
 
-La fonction de MàJ doit également être injective pour maximiser l’expressivité, l’opérateur $\|$ dénote la concaténation de vecteurs. $h_{v}^{0} = s_{v}(t)$, le vecteur d’état du noeud $v$. 
+The update function must also be injective to maximize expressivity; $\|$ denotes vector concatenation, and $h_{v}^{(0)} = s_{v}(t)$ is the state vector of node $v$.
 
-**Features** positionnelles et relatives**
+**Relative positional features**
 
- Les auteurs proposent d’augmenter les vecteurs d’états $s$ de chaque noeuds avec des **features** positionnelles relatives. 
+The authors propose to augment the state vector $s$ of each node with relative positional features.
 
-Le principe est de compter combien de marches temporelles d’une taille donnée existent entre deux noeuds (Combien de fois les noeuds apparaissent à des niveaux différents de TCT). 
+The idea is to count how many temporal walks of a given length exist between two nodes (how many times nodes appear at different levels of the TCT).
 
-On considère une matrice carrée $P$. Une ligne de cette matrice nous donne la position relative  de chaque noeuds par rapport au noeud cible. 
+We consider a square matrix $P$; each row gives the relative position of every node with respect to the target node.
 
-![Capture d’écran 2023-01-30 à 13.30.03.png](Capture_decran_2023-01-30_a_13.30.03.png)
+![Relative positional features](/assets/img/posts/expressivity/Capture_decran_2023-01-30_a_13.30.03.png)
 
-**PINT** augmenté des **features** positionnelles est strictement plus expressif que WA-TGN et MP-TGN. 
+**PINT** with positional **features** is strictly more expressive than WA-TGNs and MP-TGNs.
 
-**Limite de PINT**
+**Limits of PINT**
 
-PINT est borné par le test temporel 1-WL. De même que T-1-WL, toutes les structures non isomorphes que T-1-WL déterminera comme isomorphes, PINT n’arrivera également pas à les distinguer. 
+PINT is bounded by the temporal 1-WL test: any non-isomorphic structures that T-1-WL deems isomorphic cannot be distinguished by PINT either.
 
-’
+![Limits of PINT](/assets/img/posts/expressivity/Capture_decran_2023-01-30_a_13.35.00.png)
 
-![Capture d’écran 2023-01-30 à 13.35.00.png](Capture_decran_2023-01-30_a_13.35.00.png)
+Because of the symmetry of this graph, PINT cannot give different representations to these two events. So there is still room to improve the expressivity of TGN models.
 
-La symétrie de ce graphe fait que PINT n’arrivera pas à donner une représentation différentes pour ces deux événements. Il est donc encore possible d’améliorer l’expressivité des modèles TGN. 
+## Results
 
-## Résultats
+![PINT results](/assets/img/posts/expressivity/Capture_decran_2023-01-30_a_13.36.36.png)
 
-![Capture d’écran 2023-01-30 à 13.36.36.png](Capture_decran_2023-01-30_a_13.36.36.png)
-
-Le protocole expérimentale ici utilisé est identique à TGN,TGAT,CAW… Il serait intéressant d’évaluer PINT dans le nouveau protocole présenté à NIPS 2022, **[Towards Better Evaluation for Dynamic Link Prediction](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwj66-rZrO_8AhVxiv0HHVyJC04QFnoECAoQAQ&url=https%3A%2F%2Farxiv.org%2Fabs%2F2207.10128&usg=AOvVaw3Gy6osPs-ORPj_Iv_h5t8Y).**
+The experimental protocol used here is the same as in TGN, TGAT, CAW… It would be interesting to evaluate PINT with the new protocol introduced at NeurIPS 2022, **[Towards Better Evaluation for Dynamic Link Prediction](https://arxiv.org/abs/2207.10128)**.

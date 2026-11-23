@@ -1,0 +1,31 @@
+"NeurIPS":
+  url: https://neurips.cc/
+  color: "#6f42c1"
+
+"ICCV":
+  url: https://iccv.thecvf.com/
+  color: "#00369f"
+
+"EMNLP":
+  url: https://aclanthology.org/
+  color: "#b31b1b"
+
+"EACL-W":
+  url: https://aclanthology.org/
+  color: "#d9480f"
+
+"TMLR":
+  url: https://jmlr.org/tmlr/
+  color: "#2b8a3e"
+
+"ECML-W":
+  color: "#1971c2"
+
+"ICMLC":
+  color: "#0c8599"
+
+"Preprint":
+  color: "#868e96"
+
+"Quiet Drones":
+  color: "#5c940d"

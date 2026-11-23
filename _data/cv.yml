@@ -1,0 +1,115 @@
+cv:
+  name: Yannis Karmim
+  label: AI researcher · Postdoctoral researcher, INRIA Paris & INRIA Chile
+  email: yannis.karmim@inria.fr
+  location: Paris – Santiago
+  image: ""
+  summary: >-
+    AI researcher, PhD 2025. Five first-author papers at NeurIPS, ICCV, TMLR, EMNLP and EACL, spanning graph representation learning,
+    uncertainty estimation, LLM reasoning and end-to-end LM training. Hands-on with large-scale distributed training (multi-node multi-GPU)
+    and with deployment under tight compute constraints.
+
+  social_networks:
+    - network: GitHub
+      username: ykrmm
+    - network: LinkedIn
+      username: yannis-karmim-59257b18b
+
+  sections:
+    Experience:
+      - company: INRIA Paris & INRIA Chile (ALMANACH)
+        position: Postdoctoral Researcher
+        location: Paris – Santiago
+        start_date: 2025-11
+        end_date: present
+        summary: Small reasoning models and agents, knowledge acquisition, knowledge composition.
+        highlights:
+          - Socio-cultural bias evaluation of LLMs (EACL'26 workshop).
+          - Multi-hop reasoning via pretraining augmentation (Findings of EMNLP'26).
+
+      - company: CNAM Paris (CEDRIC) & ISIR, Sorbonne University
+        position: PhD in Machine Learning
+        location: Paris, France
+        start_date: 2021-10
+        end_date: 2025-06
+        summary: Machine learning on graphs for recommendation and dynamic prediction. Defended June 3, 2025. Supervisors Nicolas Thome and Raphaël Fournier-S'niehotta.
+        highlights:
+          - Graph Neural Networks, Temporal Data, Uncertainty, Transformers, Vision-Language Models, LLMs.
+
+      - company: RAKAM
+        position: R&D Consultant in Deep Learning
+        location: Paris, France
+        start_date: 2024-05
+        end_date: 2024-09
+        highlights:
+          - Built an automatic knowledge-graph construction pipeline from large-scale structured data.
+          - RAG-based LLM conditioning for question answering over the generated graph, 30–70% gain over baseline.
+          - Fast graph partitioning and inference for real-time tutorial generation.
+
+      - company: Conservatoire National des Arts et Métiers
+        position: Research Engineer
+        location: Paris, France
+        start_date: 2020-09
+        end_date: 2021-10
+        highlights:
+          - Spatio-temporal object detection for real-time defense systems (aerial drone detection and localisation).
+          - Lightweight model pre-trained at scale (1M images) and fine-tuned semi-supervised on few labelled (1k) examples; 95% mAP under deployment constraints.
+          - Optimised inference on NVIDIA Jetson Nano.
+
+    Education:
+      - institution: Conservatoire National des Arts et Métiers
+        location: Paris, France
+        area: Machine Learning
+        studyType: PhD
+        start_date: 2021-10
+        end_date: 2025-06
+
+      - institution: Sorbonne Université
+        location: Paris, France
+        area: Data Science (DAC)
+        studyType: MSc
+        start_date: 2018-09
+        end_date: 2020-06
+
+      - institution: Université de Montréal
+        location: Montréal, Canada
+        area: Computer Science
+        studyType: Exchange programme
+        start_date: 2018-01
+        end_date: 2018-07
+
+      - institution: Sorbonne Université
+        location: Paris, France
+        area: Computer Science
+        studyType: BSc
+        start_date: 2015-09
+        end_date: 2018-01
+
+    Skills:
+      - name: ML stack
+        icon: fa-solid fa-code
+        keywords: "Python, PyTorch, PyTorch Lightning, PyTorch Geometric, HuggingFace (Transformers, Datasets, Accelerate), NumPy, SciPy, pandas, scikit-learn, Weights & Biases, TransformerLens"
+      - name: Scale & systems
+        icon: fa-solid fa-server
+        keywords: "FSDP / DeepSpeed, multi-node multi-GPU training up to 100B tokens, 400M images (LAION), SLURM, CUDA, mixed precision, profiling and memory optimisation, Docker, Git"
+      - name: Domains
+        icon: fa-solid fa-brain
+        keywords: "Graph neural networks, large language models, vision-language models, uncertainty quantification and calibration, edge deployment (NVIDIA Jetson)"
+
+    Languages:
+      - name: French
+        summary: Native
+      - name: English
+        summary: C1
+      - name: Portuguese
+        summary: B1
+      - name: German
+        summary: B1
+
+    Teaching & service:
+      - label: Teaching
+        details: "~140 hours. Teaching Assistant, CNAM & Sorbonne Université (2021–2024); Instructor, Jedha (2025–2026)."
+      - label: Reviewer
+        details: "NeurIPS, ICML, ICLR, CVPR, EMNLP, TMLR, ICLR Workshops"
+      - label: Invited talks
+        details: "CENIA, Santiago (May 2026) · Universidad de Chile (May 2026) · INRIA Chile (Mar. 2026)"
