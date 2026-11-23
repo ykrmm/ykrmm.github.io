@@ -6,7 +6,7 @@ subtitle: Postdoctoral researcher at <a href="https://www.inria.fr/en/almanach">
 
 profile:
   align: right
-  image: prof_pic.png
+  image: prof_pic.jpg
   image_circular: false # crops the image to make it circular
   more_info: >
     <p>INRIA Paris / INRIA Chile</p>
