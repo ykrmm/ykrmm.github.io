@@ -18,11 +18,11 @@ Personal academic website of Yannis Karmim, built with [al-folio](https://github
 ## Local preview (Docker)
 
 ```bash
-docker run --rm -p 8080:8080 -v "$PWD":/srv/jekyll -w /srv/jekyll amirpourmand/al-folio:latest \
-  bash -c 'bundle check || bundle install; bundle exec jekyll serve --host 0.0.0.0 --port 8080 --force_polling'
+docker run --rm -p 4000:4000 -v "$PWD":/srv/jekyll -w /srv/jekyll amirpourmand/al-folio:latest \
+  bash -c 'bundle exec jekyll serve --host 0.0.0.0 --port 4000 --force_polling --destination /tmp/_site'
 ```
 
-Then open http://localhost:8080.
+Then open http://localhost:4000. See [QUICK_TUTO.md](QUICK_TUTO.md) for how to edit content.
 
 ## Deployment
 
