@@ -1,12 +1,12 @@
 cv:
   name: Yannis Karmim
-  label: AI researcher · Postdoctoral researcher, INRIA Paris & INRIA Chile
+  label: AI/NLP researcher · Postdoctoral researcher, INRIA Paris & INRIA Chile
   email: yannis.karmim@inria.fr
   location: Paris – Santiago
   image: ""
   summary: >-
     AI researcher, PhD 2025. Five first-author papers at NeurIPS, ICCV, TMLR, EMNLP and EACL, spanning graph representation learning,
-    uncertainty estimation, LLM reasoning and end-to-end LM training. Hands-on with large-scale distributed training (multi-node multi-GPU)
+    uncertainty estimation, LLM reasoning and end-to-end LM training. Hands-on with large-scale distributed training (multi-node multi-GPU) up to 24B models
     and with deployment under tight compute constraints.
 
   social_networks:
@@ -91,7 +91,7 @@ cv:
         keywords: "Python, PyTorch, PyTorch Lightning, PyTorch Geometric, HuggingFace (Transformers, Datasets, Accelerate), NumPy, SciPy, pandas, scikit-learn, Weights & Biases, TransformerLens"
       - name: Scale & systems
         icon: fa-solid fa-server
-        keywords: "FSDP / DeepSpeed, multi-node multi-GPU training up to 100B tokens, 400M images (LAION), SLURM, CUDA, mixed precision, profiling and memory optimisation, Docker, Git"
+        keywords: "FSDP / DeepSpeed, Megatron-LM, multi-node multi-GPU training up to 24B models, 2B images (LAION-en), SLURM, CUDA, mixed precision, profiling and memory optimisation, Docker, Git"
       - name: Domains
         icon: fa-solid fa-brain
         keywords: "Graph neural networks, large language models, vision-language models, uncertainty quantification and calibration, edge deployment (NVIDIA Jetson)"
@@ -101,6 +101,8 @@ cv:
         summary: Native
       - name: English
         summary: C1
+      - name: Spanish 
+        summary: B2
       - name: Portuguese
         summary: B1
       - name: German
