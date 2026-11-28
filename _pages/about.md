@@ -26,7 +26,7 @@ latest_posts:
   limit: 3 # leave blank to include all the blog posts
 ---
 
-I am a postdoctoral researcher between **INRIA Paris** and **INRIA Chile**, in the **ALMANACH** team. I work on **small reasoning models and agents**: how language models acquire knowledge during pretraining, how they compose it for multi-hop reasoning, and how to evaluate their socio-cultural biases, with a focus on Latin America.
+I am a postdoctoral researcher between **INRIA Paris** and **INRIA Chile**, in the **ALMANACH** team. I work on **implicit reasoning** and how language models acquire knowledge during pretraining, how they compose it for multi-hop reasoning, and how to evaluate their socio-cultural biases, with a focus on Latin America.
 
 I received my **PhD in Machine Learning** from [CNAM Paris](https://cedric.cnam.fr/) in June 2025, under the supervision of [Nicolas Thome](http://cedric.cnam.fr/~thomen/) and [Raphaël Fournier-S'niehotta](http://raphael.fournier-sniehotta.fr/) (CEDRIC, CNAM & ISIR, Sorbonne University). My thesis was on machine learning on graphs for recommendation and dynamic prediction.
 
